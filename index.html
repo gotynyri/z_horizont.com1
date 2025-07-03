@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Sci-Fi Terminal</title>
+    <title>Терминал Горизонт Станции</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -131,22 +131,6 @@
             border-radius: 50%;
             pointer-events: none;
         }
-        
-        .wire-connector {
-            width: 40px;
-            height: 10px;
-            cursor: move;
-            border-radius: 3px;
-            transition: opacity 0.3s;
-        }
-        
-        .wire-target {
-            width: 40px;
-            height: 10px;
-            border: 1px dashed var(--glow-color);
-            border-radius: 3px;
-            transition: box-shadow 0.3s, background 0.3s;
-        }
     </style>
 </head>
 <body class="flex items-center justify-center p-4">
@@ -161,41 +145,41 @@
                 <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div class="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <h1 class="text-xl neon-text">HORIZON STATION TERMINAL v2.4.7</h1>
-            <div class="text-sm">[SECURITY LEVEL: <span class="text-yellow-400">3</span>]</div>
+            <h1 class="text-xl neon-text">ТЕРМИНАЛ СТАНЦИИ "ГОРИЗОНТ" v2.4.7</h1>
+            <div class="text-sm">[УРОВЕНЬ ДОСТУПА: <span class="text-yellow-400">3</span>]</div>
         </div>
         
         <!-- Main terminal content -->
         <div class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left column - Auth panel -->
             <div class="holographic-ui p-4 rounded col-span-1">
-                <div class="neon-alert text-center mb-4 font-bold">AUTHENTICATION REQUIRED</div>
+                <div class="neon-alert text-center mb-4 font-bold">ТРЕБУЕТСЯ АУТЕНТИФИКАЦИЯ</div>
                 
                 <div class="space-y-4">
                     <div>
-                        <label class="block mb-1">AGENT ID:</label>
+                        <label class="block mb-1">ИДЕНТИФИКАТОР АГЕНТА:</label>
                         <input type="text" class="neon-input w-full" id="agent-id" placeholder="ID-XXXXXX">
                         <div class="text-xs mt-1 text-green-300" id="id-hint"></div>
                     </div>
                     
                     <div>
-                        <label class="block mb-1">ACCESS CODE:</label>
+                        <label class="block mb-1">КОД ДОСТУПА:</label>
                         <input type="password" class="neon-input w-full" id="access-code" placeholder="••••••••">
                     </div>
                     
                     <div class="text-center">
                         <button onclick="attemptLogin()" class="bg-green-900 bg-opacity-50 border border-green-500 px-4 py-2 rounded hover:bg-opacity-70 transition-all hover:shadow-lg hover:shadow-green-500/20">
-                            VERIFY CREDENTIALS
+                            ПОДТВЕРДИТЬ ДОСТУП
                         </button>
                     </div>
                 </div>
                 
                 <!-- Biometric scanner -->
                 <div class="mt-6 text-center">
-                    <p class="mb-2">OR</p>
+                    <p class="mb-2">ИЛИ</p>
                     <button onclick="startBiometricScan()" class="text-xs bg-black bg-opacity-30 border border-green-500 px-3 py-1 rounded flex items-center mx-auto">
                         <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                        INITIATE BIOMETRIC SCAN
+                        БИОМЕТРИЧЕСКОЕ СКАНИРОВАНИЕ
                     </button>
                     
                     <div class="dna-strand mt-2" id="dna-strand">
@@ -210,17 +194,17 @@
             <div class="col-span-1 md:col-span-2 space-y-4">
                 <!-- System status -->
                 <div class="holographic-ui p-4 rounded">
-                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">SYSTEM STATUS</h2>
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">СОСТОЯНИЕ СИСТЕМЫ</h2>
                     <div class="grid grid-cols-2 gap-2 text-sm">
-                        <div>CONTAINMENT: <span class="text-green-400">STABLE</span></div>
-                        <div>POWER: <span class="text-yellow-400">87%</span></div>
-                        <div>QUARANTINE: <span class="text-red-400">ACTIVE</span></div>
-                        <div>SPECIMENS: <span class="text-red-400">12</span></div>
+                        <div>КОНТЕЙНМЕНТ: <span class="text-green-400">СТАБИЛЕН</span></div>
+                        <div>ЭНЕРГИЯ: <span class="text-yellow-400">87%</span></div>
+                        <div>КАРАНТИН: <span class="text-red-400">АКТИВЕН</span></div>
+                        <div>ОБРАЗЦЫ: <span class="text-red-400">12</span></div>
                     </div>
                     
                     <div class="mt-3">
                         <div class="flex justify-between text-xs mb-1">
-                            <span>Z9 CONTAINMENT</span>
+                            <span>КОНТЕЙНМЕНТ Z9</span>
                             <span>72%</span>
                         </div>
                         <div class="w-full bg-gray-900 h-2 rounded-full overflow-hidden">
@@ -231,46 +215,48 @@
                 
                 <!-- Recent logs -->
                 <div class="holographic-ui p-4 rounded">
-                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">RECENT LOGS</h2>
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">ПОСЛЕДНИЕ СОБЫТИЯ</h2>
                     <div class="text-sm space-y-2 max-h-40 overflow-y-auto pr-2">
                         <div class="flex">
                             <span class="text-gray-400">[08:42:17]</span>
-                            <span class="ml-2">Specimen Z9-03 showing increased activity</span>
+                            <span class="ml-2">
+Образец Z9-03 демонстрирует повышенную активность</span>
                         </div>
                         <div class="flex">
                             <span class="text-gray-400">[08:39:55]</span>
-                            <span class="ml-2">Security breach in Sector 4-B</span>
+                            <span class="ml-2">Нарушение безопасности в секторе 4-Б</span>
                         </div>
                         <div class="flex">
                             <span class="text-gray-400">[08:37:23]</span>
-                            <span class="ml-2">Containment protocols initiated</span>
+                            <span class="ml-2">Инициированы протоколы сдерживания</span>
                         </div>
                         <div class="flex">
                             <span class="text-gray-400">[08:35:41]</span>
-                            <span class="ml-2">Warning: Power fluctuations detected</span>
+                            <span class="ml-2">Предупреждение: обнаружены колебания мощности</span>
                         </div>
                         <div class="flex">
                             <span class="text-gray-400">[08:32:09]</span>
-                            <span class="ml-2">Dr. Chen accessed Lab 3</span>
+                            <span class="ml-2">
+Доктор Чен получил доступ к Лаборатории 3</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Mini-games selector -->
                 <div class="holographic-ui p-4 rounded mt-4">
-                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">SYSTEM HACKING TOOLS</h2>
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">ИНСТРУМЕНТЫ ВЗЛОМА</h2>
                     <div class="grid grid-cols-2 gap-2 text-sm">
                         <button onclick="startGame('cipher')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
-                            CIPHER DECODER
+                            ДЕШИФРАТОР
                         </button>
                         <button onclick="startGame('wires')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
-                            WIRE RECONNECT
+                            ПЕРЕПОДКЛЮЧЕНИЕ
                         </button>
                         <button onclick="startGame('puzzle')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
-                            SECURITY PUZZLE
+                            ГОЛОВОЛОМКА
                         </button>
                         <button onclick="startGame('morse')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
-                            MORSE DECODER
+                            МОРЗЕ
                         </button>
                     </div>
                     <div id="game-container" class="mt-4"></div>
@@ -280,25 +266,26 @@
                 <div id="agent-tools" class="holographic-ui p-4 rounded mt-4 hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">PERSONAL ACCESS TOOLS</h2>
+                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">ЛИЧНЫЕ ИНСТРУМЕНТЫ</h2>
                             <div id="tool-buttons" class="grid grid-cols-1 gap-2 text-sm"></div>
                         </div>
                         <div>
-                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">AGENT COMMUNICATION</h2>
+                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">СВЯЗЬ С АГЕНТАМИ</h2>
                             <div class="holographic-ui p-2 rounded mb-2 h-40 overflow-y-auto" id="chat-messages"></div>
                             <div class="flex">
                                 <select id="chat-recipient" class="neon-input bg-black bg-opacity-50 mr-2">
-                                    <option value="">Select agent</option>
-                                    <option value="IGOR-K7">Dr. Igor</option>
-                                    <option value="OLES-Y4">Dr. Olesya</option>
-                                    <option value="DMIT-R9">Dr. Dmitri</option>
-                                    <option value="AKIRA-42">Dr. Akira</option>
-                                    <option value="NICH-666">Nicholas</option>
-                                    <option value="TOCHA-MK">Tosha</option>
+                                    <option value="">Выберите агента</option>
+                                    <option value="GOTYNYRI">Разработчик Gotynyri</option>
+                                    <option value="IGOR-K7">Др. Игорь</option>
+                                    <option value="OLES-Y4">Др. Олеся</option>
+                                    <option value="DMIT-R9">Др. Дмитрий</option>
+                                    <option value="AKIRA-42">Др. Акира</option>
+                                    <option value="NICH-666">Николай</option>
+                                    <option value="TOCHA-MK">Тоша</option>
                                 </select>
-                                <input type="text" class="neon-input flex-grow mr-2" id="chat-message" placeholder="Type message...">
+                                <input type="text" class="neon-input flex-grow mr-2" id="chat-message" placeholder="Введите сообщение...">
                                 <button onclick="sendChatMessage()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded text-sm">
-                                    SEND
+                                    ОТПРАВИТЬ
                                 </button>
                             </div>
                         </div>
@@ -307,12 +294,12 @@
 
                 <!-- Command input -->
                 <div class="holographic-ui p-4 rounded">
-                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">DIRECT COMMAND</h2>
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">ПРЯМАЯ КОМАНДА</h2>
                     <div class="flex">
                         <span class="text-green-400 mr-2">></span>
-                        <input type="text" class="neon-input flex-grow bg-transparent" id="command-input" placeholder="Enter command...">
+                        <input type="text" class="neon-input flex-grow bg-transparent" id="command-input" placeholder="Введите команду...">
                         <button onclick="executeCommand()" class="ml-2 bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded text-sm">
-                            EXECUTE
+                            ВВОД
                         </button>
                     </div>
                     <div id="command-output" class="text-xs mt-2 h-20 overflow-y-auto"></div>
@@ -322,9 +309,9 @@
         
         <!-- Footer -->
         <div class="border-t border-green-500 p-3 text-xs flex justify-between">
-            <div>LAST UPDATE: <span id="current-time">--:--:--</span></div>
-            <div>STATUS: <span class="text-green-400">ONLINE</span></div>
-            <div>VERSION: 2.4.7-ALPHA</div>
+            <div>ОБНОВЛЕНО: <span id="current-time">--:--:--</span></div>
+            <div>СТАТУС: <span class="text-green-400">ОНЛАЙН</span></div>
+            <div>ВЕРСИЯ: 2.4.7-ALPHA</div>
         </div>
     </div>
 
@@ -380,13 +367,13 @@
                     
                     switch(randomPattern) {
                         case 'GATTACA-42':
-                            accessMessage = 'WARNING: Z9 SPECIMEN DETECTED\nQuarantine protocols engaged';
+                            accessMessage = 'ВНИМАНИЕ: ОБНАРУЖЕН ОБРАЗЕЦ Z9\nВключены карантинные протоколы';
                             break;
                         case 'TOCHA-MK1':
-                            accessMessage = 'MATCH: TOSHA PRE-INFECTION\nAccess to medical records granted';
+                            accessMessage = 'СООТВЕТСТВИЕ: ДО ЗАРАЖЕНИЯ ТОША\nДоступ к медицинским записям предоставлен';
                             break;
                         case 'NICH-XX7':
-                            accessMessage = 'ANOMALY DETECTED\nNicholas pattern recognized\nALERT: Restricted access';
+                            accessMessage = 'ОБНАРУЖЕНА АНОМАЛИЯ\nРаспознан шаблон Николаса\nТРЕВОГА: Ограниченный доступ';
                             break;
                     }
                     
@@ -403,7 +390,7 @@
             const accessCode = document.getElementById('access-code').value;
             
             if (!agentId || !accessCode) {
-                alert('ERROR: Please enter both Agent ID and Access Code');
+                alert('ОШИБКА: Введите идентификатор агента и код доступа');
                 return;
             }
             
@@ -411,34 +398,34 @@
             const agentCodes = {
                 'IGOR-K7': {
                     code: 'Z9-OMEGA',
-                    name: 'Dr. Igor Vladimirovich',
-                    access: 'Protocol "Ark"',
+                    name: 'Доктор Игорь Владимирович',
+                    access: 'Протокол "Ковчег"',
                     tools: [
-                        {name: 'Activate Ark', func: 'launchProtocol("ARK")'},
-                        {name: 'Quarantine Logs', func: 'showQuarantineLogs()'},
-                        {name: 'Override Systems', func: 'overrideSystems()'}
+                        {name: 'Активировать Ковчег', func: 'launchProtocol("ARK")'},
+                        {name: 'Журналы карантина', func: 'showQuarantineLogs()'},
+                        {name: 'Системы отмены', func: 'overrideSystems()'}
                     ],
                     responses: [
-                        "I'm busy with containment protocols.",
-                        "The specimens are becoming more aggressive.",
-                        "We need to initiate Protocol Ark soon."
+                        "Я занят протоколами сдерживания.",
+                        "Особи становятся более агрессивными.",
+                        "Нам необходимо как можно скорее запустить протокол «Ковчег»."
                     ]
                 },
                 'OLES-Y4': {
                     code: 'CRYPT-704',
-                    name: 'Dr. Olesya Mironova',
-                    access: 'Crew biometric data',
+                    name: 'Доктор Олеся Миронова',
+                    access: 'Биометрические данные экипажа',
                     tools: [
-                        {name: 'Medical Scan', func: 'medicalScan()'},
-                        {name: 'Biometric Data', func: 'showBiometrics()'},
-                        {name: 'Infection Map', func: 'showInfectionMap()'}
+                        {name: 'Медицинское сканирование', func: 'medicalScan()'},
+                        {name: 'Биометрические данные', func: 'showBiometrics()'},
+                        {name: 'Карта заражения', func: 'showInfectionMap()'}
                     ],
                     responses: [
-                        "The infection is spreading faster than expected.",
-                        "Tosha's vitals are unstable.",
-                        "I'm analyzing the latest blood samples.",
-                        "The mutation rate is off the charts!",
-                        "We're losing containment in medical bay."
+                        "Инфекция распространяется быстрее, чем ожидалось.",
+                        "Жизненно важные показатели Тоши нестабильны.",
+                        "Я анализирую последние образцы крови.",
+                        "Скорость мутаций просто зашкаливает!",
+                        "Мы теряем изоляцию в медицинском отсеке."
                     ],
                     blocked: false,
                     blockAfter: 4,
@@ -446,69 +433,86 @@
                 },
                 'DMIT-R9': {
                     code: 'TITAN-DM',
-                    name: 'Dr. Dmitri Sokolov',
-                    access: 'Ventilation blueprints',
+                    name: 'Доктор Дмитрий Соколов',
+                    access: 'Чертежи вентиляции',
                     tools: [
-                        {name: 'Vent Control', func: 'ventControl()'},
-                        {name: 'Structural Scan', func: 'structuralScan()'},
-                        {name: 'Emergency Seal', func: 'emergencySeal()'}
+                        {name: 'Вентиляционное управление', func: 'ventControl()'},
+                        {name: 'Структурное сканирование', func: 'structuralScan()'},
+                        {name: 'Аварийная печать', func: 'emergencySeal()'}
                     ],
                     responses: [
-                        "The ventilation system is compromised.",
-                        "Sector 4-B is completely sealed now.",
-                        "I'm rerouting power to containment."
+                        "Система вентиляции вышла из строя.",
+                        "Сектор 4-Б в настоящее время полностью изолирован.",
+                        "Я перенаправляю энергию на сдерживание."
                     ]
                 },
                 'AKIRA-42': {
                     code: 'GENOME-11',
-                    name: 'Dr. Akira Tanaka',
-                    access: 'Tosha DNA research',
+                    name: 'Доктор Акира Танака',
+                    access: 'Исследование ДНК Тоши',
                     tools: [
-                        {name: 'DNA Analysis', func: 'dnaAnalysis()'},
-                        {name: 'Mutation Sim', func: 'mutationSim()'},
-                        {name: 'Gene Therapy', func: 'geneTherapy()'}
+                        {name: 'Анализ ДНК', func: 'dnaAnalysis()'},
+                        {name: 'Мутационный симулятор', func: 'mutationSim()'},
+                        {name: 'Генная терапия', func: 'geneTherapy()'}
                     ],
                     responses: [
-                        "The Z9 strain shows unprecedented mutation rates.",
-                        "Tosha's DNA holds the key to a cure.",
-                        "We need more time for analysis."
+                        "Штамм Z9 демонстрирует беспрецедентную скорость мутаций.",
+                        "ДНК Тоши содержит ключ к излечению.",
+                        "Нам нужно больше времени для анализа."
                     ]
                 },
                 'NICH-666': {
                     code: 'NECRON-4',
-                    name: 'Nicholas (Unknown)',
-                    access: 'Ancient Z-9 texts',
+                    name: 'Николас (Неизвестно)',
+                    access: 'Древние тексты Z-9',
                     tools: [
-                        {name: 'Ancient Texts', func: 'showAncientTexts()'},
-                        {name: 'Ritual Circle', func: 'drawRitualCircle()'},
-                        {name: 'Void Scan', func: 'voidScan()'}
+                        {name: 'Древние тексты', func: 'showAncientTexts()'},
+                        {name: 'Ритуальный круг', func: 'drawRitualCircle()'},
+                        {name: 'Сканирование Бездны', func: 'voidScan()'}
                     ],
                     responses: [
-                        "The old ones are awakening.",
-                        "You don't understand what we've unleashed.",
-                        "The containment won't hold them forever."
+                        "Старые пробуждаются.",
+                        "Вы не понимаете, что мы выпустили на волю.",
+                        "Сдерживание не будет сдерживать их вечно."
                     ]
                 },
                 'TOCHA-MK': {
                     code: 'PURGE-ALL',
-                    name: 'Tosha (Infected)',
-                    access: 'Station final moments',
+                    name: 'Тоша (Заражённый)',
+                    access: 'Последние моменты станции',
                     tools: [
-                        {name: 'Purge Systems', func: 'purgeSystems()'},
-                        {name: 'Release Z9', func: 'releaseZ9()'},
-                        {name: 'Final Message', func: 'showFinalMessage()'}
+                        {name: 'Системы очистки', func: 'purgeSystems'},
+                        {name: 'Выпуск Z9', func: 'releaseZ9()'},
+                        {name: 'Последнее сообщение', func:'showFinalMessage()'}
                     ],
                     responses: [
-                        "It's already inside me...",
-                        "The pain... it's everywhere...",
-                        "Kill me... before it's too late..."
+                        "Это уже внутри меня...",
+                        "Боль... она повсюду...",
+                        "Убей меня... пока не стало слишком поздно..."
                     ]
+                },
+                'GOTYNYRI': {
+                    code: 'DEV-ACCESS-777',
+                    name: 'Разработчик Gotynyri',
+                    access: 'Полный системный доступ',
+                    tools: [
+                        {name: 'Редактировать систему', func: 'editSystem()'},
+                        {name: 'Добавить агента', func: 'addAgent()'},
+                        {name: 'Сбросить систему', func: 'resetSystem()'},
+                        {name: 'Экспорт данных', func: 'exportAllData()'}
+                    ],
+                    responses: [
+                        "Я контролирую систему.",
+                        "Доступ к ядру разрешен.",
+                        "Все протоколы под моим наблюдением."
+                    ],
+                    isDeveloper: true
                 }
             };
 
             if (agentCodes[agentId] && accessCode === agentCodes[agentId].code) {
                 const agent = agentCodes[agentId];
-                alert(`ACCESS GRANTED\nWelcome back, ${agent.name}\nAccess: ${agent.access}`);
+                alert(`ДОСТУП РАЗРЕШЁН\nС возвращением, ${agent.name}\nДоступ: ${agent.access}`);
                 
                 // Show agent-specific tools
                 const toolsContainer = document.getElementById('agent-tools');
@@ -526,7 +530,7 @@
                     buttonsContainer.appendChild(button);
                 });
             } else {
-                alert('ACCESS DENIED\nInvalid credentials\nAttempt logged');
+                alert('ДОСТУП ЗАПРЕЩЁН\nНеверные учетные данные\nПопытка зафиксирована');
             }
         }
         
@@ -545,90 +549,70 @@
             let response = '';
             
             switch(command.toUpperCase()) {
-                // Basic commands
-                case 'HELP':
-                    response = 'Available commands: status, logs, scan, unlock, help';
+                // Основные команды
+                case 'ПОМОЩЬ':
+                    response = 'Доступные команды:\nстатус - состояние системы\nлоги - последние события\nсканирование - проверка систем\nразблокировать - доступ к секторам\nкамеры - просмотр камер\nрежим - изменить режим работы\nжурнал - полный журнал событий\nочистить - очистить терминал';
                     break;
-                case 'STATUS':
-                    response = 'System status: ONLINE\nContainment: 72%\nPower: 87%\nQuarantine: ACTIVE';
+                case 'СТАТУС':
+                    response = 'Статус системы: ОНЛАЙН\nКонтеймент: 72%\nЭнергия: 87%\nКарантин: АКТИВЕН\nПерсонал: 12/24\nБезопасность: УРОВЕНЬ 3';
                     break;
-                case 'LOGS':
-                    response = 'Displaying last 5 logs...\n[08:42:17] Specimen activity\n[08:39:55] Security breach\n[08:37:23] Containment initiated';
+                case 'ЛОГИ':
+                    response = 'Последние 5 событий:\n[08:42:17] Активность образца Z9-03\n[08:39:55] Нарушение безопасности в секторе 4-Б\n[08:37:23] Инициирован контеймент\n[08:35:41] Колебания мощности\n[08:32:09] Доступ к Лаборатории 3';
                     break;
-                case 'SCAN':
-                    response = 'Initiating system scan...\nScan complete: 3 anomalies detected';
+                case 'СКАНИРОВАНИЕ':
+                    response = 'Запуск сканирования...\nСканирование завершено:\nОбнаружено 3 аномалии\n12 активных образцов\n4 незапечатанных шлюза';
                     break;
-                case 'UNLOCK':
-                    response = 'ERROR: Security clearance required';
+                case 'РАЗБЛОКИРОВАТЬ':
+                    response = 'ОШИБКА: Требуется уровень доступа 4+';
                     break;
+                case 'КАМЕРЫ':
+                    response = 'Доступные камеры:\n1. Главный коридор\n2. Лаборатория 3\n3. Медотсек\n4. Сектор 4-Б (ОФФЛАЙН)\n5. Хранилище Z9\nВведите номер для просмотра';
+                    break;
+                case 'РЕЖИМ':
+                    response = 'Доступные режимы:\n1. Стандартный\n2. Энергосбережение\n3. Карантин\n4. Аварийный\nВведите номер режима';
+                    break;
+                case 'ЖУРНАЛ':
+                    response = 'Загрузка полного журнала...\nПоследние 24 часа доступны\nИспользуйте фильтры для поиска';
+                    break;
+                case 'ОЧИСТИТЬ':
+                    document.getElementById('command-output').innerHTML = '';
+                    return;
                 
                 // Tier 1 Story Codes
                 case 'A9B2C7':
-                    response = 'ACCESSING MAIN ARCHIVE...\nDownloading station blueprints';
+                    response = 'ДОСТУП К ГЛАВНОМУ АРХИВУ...\nЗагрузка чертежей станции';
                     break;
                 case 'Z9M-7043':
-                    response = 'BIOLAB SCHEMATICS UNLOCKED\nWarning: Containment breach detected';
+                    response = 'СХЕМЫ БИОЛАБОРАТОРИИ РАЗБЛОКИРОВАНЫ\nПредупреждение: обнаружено нарушение условий содержания';
                     break;
                 case 'HORIZON-X':
-                    response = 'CREW VIDEO LOGS DECRYPTED\nPlaying file: log_igor_7.avi';
+                    response = 'РАСШИФРОВАНЫ ВИДЕОЖУРНАЛЫ ЭКИПАЖА\nВоспроизведение файла: log_igor_7.avi';
                     break;
                 case 'TITAN-24':
-                    response = 'TITAN INFECTION MAP LOADED\n3 active outbreak zones';
+                    response = 'КАРТА ИНФЕКЦИИ ТИТАНА ЗАГРУЖЕНА\n3 активные зоны вспышки';
                     break;
                 case 'TOCHA-11':
-                    response = 'MEDICAL RECORDS ACCESSED\nBlood analysis shows Z9 markers';
-                    break;
-                case 'ARK-13':
-                    response = 'PROTOCOL ARK DOCUMENTS UNSEALED\nHuman preservation initiative details';
-                    break;
-                case 'NICH-777':
-                    response = 'ACCESSING ANCIENT TEXTS...\nTranscribing forbidden knowledge';
-                    break;
-                case 'QUANTUM-K':
-                    response = 'QUANTUM CPU ONLINE\nInitiating predictive algorithms';
+                    response = 'ДОСТУП К МЕДИЦИНСКИМ ДОКУМЕНТАМ\nАнализ крови показывает маркеры Z9';
                     break;
                 
                 // Emergency Codes
                 case 'RED-ALPHA':
-                    response = 'QUARANTINE PROTOCOL ACTIVATED\nAll sectors sealing...';
+                    response = 'АКТИВИРОВАН ПРОТОКОЛ КАРАНТИНА\nВсе сектора запечатаны...';
                     break;
                 case 'OMEGA-9':
-                    response = 'SELF-DESTRUCT INITIATED\n30 seconds to detonation';
-                    break;
-                case 'BLUE-TAU':
-                    response = 'MEDICAL OVERRIDE\nAll medibays unlocked\nAdministering sedatives';
-                    break;
-                case 'GAMMA-42':
-                    response = 'PURGE SYSTEMS ENGAGED\nRadical sterilization protocol';
-                    break;
-                
-                // Security Codes 
-                case 'GATE-24':
-                    response = 'ARMORY ACCESS GRANTED\nWeapons systems online';
-                    break;
-                case 'VAULT-7':
-                    response = 'HYPERCELL OPENED\nSpecimen storage accessible';
-                    break;
-                case 'SILO-11':
-                    response = 'EXPERIMENTAL WEAPONS RELEASED\nWarning: Extreme biohazard';
+                    response = 'САМОУНИЧТОЖЕНИЕ ЗАПУЩЕНО\n30 секунд до детонации';
                     break;
                 
                 // Easter Eggs
                 case 'UPUP-DOWN':
-                    response = 'RETRO MODE ENABLED\nDisplaying 8-bit interface';
+                    response = 'РЕЖИМ РЕТРО ВКЛЮЧЕН\nОтображение 8-битного интерфейса';
                     break;
                 case 'NEO-MATRIX':
-                    response = 'SYSTEM OVERRIDE\nGreen data stream activated';
-                    break;
-                case 'DEVS-42':
-                    response = 'DEVELOPER MODE ENABLED\nHidden commands unlocked';
-                    break;
-                case 'COVENANT':
-                    response = 'ACCESSING RESTRICTED FILES...\nThe Flood containment records';
+                    response = 'СИСТЕМНОЕ ПЕРЕОПРЕДЕЛЕНИЕ\nАктивирован зеленый поток данных';
                     break;
                 
                 default:
-                    response = `ERROR: Unknown command "${command}"`;
+                    response = `ОШИБКА: Неизвестная команда "${command}"`;
             }
             
             output.innerHTML += `<div class="text-gray-300">${response}</div>`;
@@ -680,12 +664,12 @@
 
         // Agent ID hints
         const hintsDatabase = {
-            "IGOR-K7": "Code starts with Z9-... (engraved on tablet)",
-            "OLES-Y4": "Hidden in audio diary (reverse audio)",
-            "DMIT-R9": "Written on back of Titan photo",
-            "AKIRA-42": "Encrypted in Japanese haiku (anagram)",
-            "NICH-666": "Hidden in tattoo symbols",
-            "TOCHA-MK": "Dictated in trance (Morse code in audio)"
+            "IGOR-K7": "Код начинается с Z9-... (выгравирован на табличке)",
+            "OLES-Y4": "Скрыто в аудиодневнике (обратный звук)",
+            "DMIT-R9": "Написано на обороте фотографии Титана.",
+            "AKIRA-42": "Зашифровано в японском хокку (анаграмма)",
+            "NICH-666": "Скрытые в татуировках символы",
+            "TOCHA-MK": "Продиктовано в трансе (Аудио с азбукой Морзе)"
         };
 
         document.getElementById('agent-id').addEventListener('input', function() {
@@ -698,52 +682,84 @@
             container.innerHTML = '';
             
             switch(gameType) {
-                case 'wires':
-                    container.innerHTML = `
-                        <div class="holographic-ui p-4 rounded">
-                            <h3 class="font-bold mb-2">// WIRE RECONNECT //</h3>
-                            <p>Match the wire colors to restore power:</p>
-                            <div class="grid grid-cols-2 gap-4 mt-4" id="wire-grid">
-                                <div class="wire-connector bg-red-500" data-color="red"></div>
-                                <div class="wire-connector bg-blue-500" data-color="blue"></div>
-                                <div class="wire-connector bg-yellow-500" data-color="yellow"></div>
-                                <div class="wire-connector bg-green-500" data-color="green"></div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4 mt-4" id="wire-targets">
-                                <div class="wire-target" data-color="blue"></div>
-                                <div class="wire-target" data-color="red"></div>
-                                <div class="wire-target" data-color="green"></div>
-                                <div class="wire-target" data-color="yellow"></div>
-                            </div>
-                            <button onclick="checkWireSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-4">
-                                CHECK CONNECTION
-                            </button>
-                        </div>
-                    `;
-                    setupWireGame();
-                    break;
                 case 'cipher':
                     container.innerHTML = `
                         <div class="holographic-ui p-4 rounded">
-                            <h3 class="font-bold mb-2">// CIPHER DECODER //</h3>
-                            <p>Encrypted message: <span class="text-yellow-400">ZKDW GR BRX VHH</span></p>
+                            <h3 class="font-bold mb-2">// ДЕШИФРАТОР //</h3>
+                            <p>Зашифрованное сообщение: <span class="text-yellow-400">ZKDW GR BRX VHH</span></p>
                             <div class="flex items-center mt-2">
                                 <button onclick="shiftCipher(-1)" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded">
                                     ←
                                 </button>
-                                <span class="mx-4" id="shift-value">Shift: 0</span>
+                                <span class="mx-4" id="shift-value">Сдвиг: 0</span>
                                 <button onclick="shiftCipher(1)" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded">
                                     →
                                 </button>
                             </div>
-                            <p class="mt-2">Decoded: <span id="decoded-text">?????????</span></p>
+                            <p class="mt-2">Расшифровка: <span id="decoded-text">?????????</span></p>
                             <button onclick="checkCipherSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-2 hidden" id="cipher-submit">
-                                SUBMIT SOLUTION
+                                ПРОВЕРИТЬ
                             </button>
                         </div>
                     `;
                     break;
-                // Other game cases would go here...
+                case 'wires':
+                    container.innerHTML = `
+                        <div class="holographic-ui p-4 rounded">
+                            <h3 class="font-bold mb-2">// ПЕРЕПОДКЛЮЧЕНИЕ //</h3>
+                            <p>Выберите правильную последовательность:</p>
+                            <div class="grid grid-cols-3 gap-2 mt-2">
+                                <button onclick="selectWire(1)" class="bg-red-500 h-8"></button>
+                                <button onclick="selectWire(2)" class="bg-blue-500 h-8"></button>
+                                <button onclick="selectWire(3)" class="bg-green-500 h-8"></button>
+                                <button onclick="selectWire(4)" class="bg-yellow-500 h-8"></button>
+                                <button onclick="selectWire(5)" class="bg-purple-500 h-8"></button>
+                                <button onclick="selectWire(6)" class="bg-white h-8"></button>
+                            </div>
+                            <p class="mt-2">Выбрано: <span id="wire-sequence"></span></p>
+                            <button onclick="checkWireSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-2">
+                                ПРОВЕРИТЬ
+                            </button>
+                        </div>
+                    `;
+                    break;
+                case 'puzzle':
+                    container.innerHTML = `
+                        <div class="holographic-ui p-4 rounded">
+                            <h3 class="font-bold mb-2">// ГОЛОВОЛОМКА //</h3>
+                            <p>Решите уравнение: 7 _ 3 _ 5 = 26</p>
+                            <div class="flex space-x-2 mt-2">
+                                <select id="operator1" class="neon-input">
+                                    <option>+</option>
+                                    <option>-</option>
+                                    <option>*</option>
+                                    <option>/</option>
+                                </select>
+                                <select id="operator2" class="neon-input">
+                                    <option>+</option>
+                                    <option>-</option>
+                                    <option>*</option>
+                                    <option>/</option>
+                                </select>
+                            </div>
+                            <button onclick="checkPuzzleSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-2">
+                                ПРОВЕРИТЬ
+                            </button>
+                        </div>
+                    `;
+                    break;
+                case 'morse':
+                    container.innerHTML = `
+                        <div class="holographic-ui p-4 rounded">
+                            <h3 class="font-bold mb-2">// МОРЗЕ //</h3>
+                            <p>Расшифруйте: ... --- ...</p>
+                            <input type="text" id="morse-input" class="neon-input w-full mt-2" placeholder="Введите расшифровку">
+                            <button onclick="checkMorseSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-2">
+                                ПРОВЕРИТЬ
+                            </button>
+                        </div>
+                    `;
+                    break;
             }
         }
 
@@ -775,86 +791,55 @@
             document.getElementById('game-container').innerHTML = '';
         }
 
-        // Wire game variables
-        let draggedWire = null;
-        let wireConnections = {};
-
-        // Wire game functions
-        function setupWireGame() {
-            const connectors = document.querySelectorAll('.wire-connector');
-            const targets = document.querySelectorAll('.wire-target');
-            
-            connectors.forEach(connector => {
-                connector.draggable = true;
-                connector.addEventListener('dragstart', function(e) {
-                    draggedWire = this;
-                    setTimeout(() => this.style.opacity = '0.4', 0);
-                });
-                connector.addEventListener('dragend', function() {
-                    this.style.opacity = '1';
-                });
-            });
-            
-            targets.forEach(target => {
-                target.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                });
-                target.addEventListener('dragenter', function(e) {
-                    e.preventDefault();
-                    this.style.boxShadow = '0 0 10px var(--glow-color)';
-                });
-                target.addEventListener('dragleave', function() {
-                    this.style.boxShadow = 'none';
-                });
-                target.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.style.boxShadow = 'none';
-                    
-                    if (draggedWire) {
-                        // Remove any existing connection for this wire
-                        Object.keys(wireConnections).forEach(key => {
-                            if (wireConnections[key] === draggedWire.dataset.color) {
-                                delete wireConnections[key];
-                            }
-                        });
-                        
-                        // Add new connection
-                        wireConnections[this.dataset.color] = draggedWire.dataset.color;
-                        
-                        // Visual feedback
-                        this.style.background = draggedWire.style.background;
-                        this.setAttribute('data-connected', draggedWire.dataset.color);
-                    }
-                });
-            });
+        let currentShift = 0;
+        let wireSequence = [];
+        
+        function selectWire(wireNum) {
+            wireSequence.push(wireNum);
+            document.getElementById('wire-sequence').textContent = wireSequence.join(', ');
         }
-
+        
         function checkWireSolution() {
-            const solution = {
-                blue: 'red',
-                red: 'blue', 
-                green: 'yellow',
-                yellow: 'green'
-            };
-            
-            let correct = 0;
-            Object.keys(solution).forEach(color => {
-                if (wireConnections[color] === solution[color]) {
-                    correct++;
-                }
-            });
-            
             const output = document.getElementById('command-output');
-            if (correct === 4) {
-                output.innerHTML += `<div class="text-green-400">Wire puzzle solved! Access code fragment: YA-4</div>`;
-                document.getElementById('game-container').innerHTML = '';
+            if(wireSequence.join('') === '352') {
+                output.innerHTML += `<div class="text-green-400">Wire sequence correct! Access code fragment: YA-4</div>`;
             } else {
-                output.innerHTML += `<div class="text-yellow-400">${correct}/4 wires connected correctly. Keep trying!</div>`;
+                output.innerHTML += `<div class="text-red-400">Incorrect sequence! Try again.</div>`;
+            }
+            output.scrollTop = output.scrollHeight;
+            wireSequence = [];
+            document.getElementById('wire-sequence').textContent = '';
+        }
+        
+        function checkPuzzleSolution() {
+            const op1 = document.getElementById('operator1').value;
+            const op2 = document.getElementById('operator2').value;
+            const output = document.getElementById('command-output');
+            
+            try {
+                const result = eval(`7 ${op1} 3 ${op2} 5`);
+                if(result === 26) {
+                    output.innerHTML += `<div class="text-green-400">Puzzle solved! Access code fragment: 7${op1}3${op2}5</div>`;
+                } else {
+                    output.innerHTML += `<div class="text-red-400">Incorrect solution (${result}). Try again.</div>`;
+                }
+            } catch {
+                output.innerHTML += `<div class="text-red-400">Invalid equation</div>`;
             }
             output.scrollTop = output.scrollHeight;
         }
-
-        let currentShift = 0;
+        
+        function checkMorseSolution() {
+            const answer = document.getElementById('morse-input').value.toUpperCase();
+            const output = document.getElementById('command-output');
+            
+            if(answer === 'SOS') {
+                output.innerHTML += `<div class="text-green-400">Morse decoded! Access code fragment: SOS-</div>`;
+            } else {
+                output.innerHTML += `<div class="text-red-400">Incorrect decoding. Try again.</div>`;
+            }
+            output.scrollTop = output.scrollHeight;
+        }
 
         // Agent tool functions
         function launchProtocol(protocol) {
@@ -876,25 +861,129 @@
                 </div>`;
         }
         
-        // Add similar placeholder functions for other agent tools...
-        function medicalScan() { alert("Running medical scan..."); }
-        function showBiometrics() { alert("Biometric data displayed"); }
-        function showInfectionMap() { alert("Infection map loading"); }
-        function ventControl() { alert("Ventilation controls"); }
-        function structuralScan() { alert("Structural scan running"); }
-        function emergencySeal() { alert("Emergency seal activated"); }
-        function dnaAnalysis() { alert("DNA analysis started"); }
-        function mutationSim() { alert("Mutation simulation"); }
-        function geneTherapy() { alert("Gene therapy protocols"); }
-        function showAncientTexts() { alert("Ancient texts accessed"); }
-        function drawRitualCircle() { alert("Ritual circle drawn"); }
-        function voidScan() { alert("Void scan initiated"); }
-        function purgeSystems() { alert("Purge systems activated"); }
-        function releaseZ9() { alert("Z9 specimens released!"); }
-        function showFinalMessage() { alert("Final message playing"); }
+        // Новые функции на русском
+        function showCameras() {
+            const output = document.getElementById('command-output');
+            output.innerHTML += `
+                <div class="text-green-400">ДОСТУП К КАМЕРАМ:</div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <div class="holographic-ui p-2 text-center">КАМЕРА 1<br>Главный коридор</div>
+                    <div class="holographic-ui p-2 text-center">КАМЕРА 2<br>Лаборатория 3</div>
+                    <div class="holographic-ui p-2 text-center">КАМЕРА 3<br>Медотсек</div>
+                    <div class="holographic-ui p-2 text-center text-red-400">КАМЕРА 4<br>ОФФЛАЙН</div>
+                </div>
+            `;
+            output.scrollTop = output.scrollHeight;
+        }
 
-        // Chat functions
+        function checkSensors() {
+            const output = document.getElementById('command-output');
+            output.innerHTML += `
+                <div class="text-green-400">СОСТОЯНИЕ ДАТЧИКОВ:</div>
+                <div class="text-sm mt-2">
+                    <div>Датчики движения: <span class="text-green-400">НОРМА</span></div>
+                    <div>Биодатчики: <span class="text-yellow-400">АНОМАЛИЯ</span></div>
+                    <div>Датчики давления: <span class="text-green-400">НОРМА</span></div>
+                    <div>Термодатчики: <span class="text-red-400">ПЕРЕГРЕВ</span></div>
+                </div>
+            `;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function systemDiagnostics() {
+            const output = document.getElementById('command-output');
+            output.innerHTML += `
+                <div class="text-green-400">ДИАГНОСТИКА СИСТЕМ:</div>
+                <div class="text-sm mt-2">
+                    <div>1. Проверка энергосистем... <span class="text-green-400">OK</span></div>
+                    <div>2. Проверка вентиляции... <span class="text-yellow-400">ОШИБКА</span></div>
+                    <div>3. Проверка шлюзов... <span class="text-red-400">СБОЙ</span></div>
+                    <div>4. Проверка связи... <span class="text-green-400">OK</span></div>
+                    <div>5. Проверка безопасности... <span class="text-yellow-400">ПРЕДУПРЕЖДЕНИЕ</span></div>
+                </div>
+            `;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Функции разработчика
+        function editSystem() {
+            const password = prompt("Введите пароль разработчика:");
+            if (password === "Z9-Dev-Secure-777") {
+                const newCode = prompt("Введите новый код системы:");
+                if (newCode) {
+                    alert(`Код системы изменен на:\n${newCode}\nИзменения применены глобально`);
+                    // In real system would update all users
+                }
+            } else {
+                alert("Неверный пароль разработчика");
+            }
+        }
+        
+        function addAgent() {
+            const id = prompt("Введите ID нового агента:");
+            const code = prompt("Введите код доступа:");
+            if(id && code) {
+                alert(`Новый агент добавлен:\nID: ${id}\nКод: ${code}`);
+            }
+        }
+        
+        function resetSystem() {
+            if(confirm("Вы уверены что хотите сбросить систему?")) {
+                alert("Сброс системы...\nВсе настройки восстановлены");
+            }
+        }
+
+        // Функции других инструментов...
+        function medicalScan() { alert("Запуск медицинского сканирования..."); }
+        function showBiometrics() { alert("Отображаются биометрические данные"); }
+        function showInfectionMap() { alert("Загрузка карты заражения"); }
+        function ventControl() { alert("Управление вентиляцией"); }
+        function structuralScan() { alert("Структурное сканирование запущено"); }
+        function emergencySeal() { alert("Аварийная пломба активирована"); }
+        function dnaAnalysis() { alert("Анализ ДНК начался"); }
+        function mutationSim() { alert("Моделирование мутаций"); }
+        function geneTherapy() { alert("Протоколы генной терапии"); }
+        function showAncientTexts() { alert("Древние тексты доступны"); }
+        function drawRitualCircle() { alert("Нарисован ритуальный круг"); }
+        function voidScan() { alert("Начато сканирование пустоты"); }
+        function purgeSystems() { alert("Системы продувки активированы"); }
+        function releaseZ9() { alert("Выпущены образцы Z9!"); }
+        function showFinalMessage() { 
+            const output = document.getElementById('command-output');
+            output.innerHTML += `<div class="text-red-400">FINAL MESSAGE: "Это конец... они вырвались..."</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Developer function to export all user data
+        function exportAllData() {
+            const output = document.getElementById('command-output');
+            const allAgents = Object.keys(agentCodes).map(id => ({
+                id,
+                name: agentCodes[id].name,
+                access: agentCodes[id].access
+            }));
+            
+            // In a real system this would send to server
+            output.innerHTML += `
+                <div class="text-green-400">ЭКСПОРТ ДАННЫХ:</div>
+                <div class="text-xs mt-2">
+                    ${JSON.stringify(allAgents, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;')}
+                </div>
+                <div class="text-yellow-400 mt-2">Данные готовы к передаче на сервер</div>
+            `;
+            output.scrollTop = output.scrollHeight;
+            
+            // Simulate server upload
+            setTimeout(() => {
+                output.innerHTML += `<div class="text-green-400">Данные успешно переданы на сервер</div>`;
+                output.scrollTop = output.scrollHeight;
+            }, 2000);
+        }
+
+        // Chat functions with auto-responses
         let messageCounts = {};
+        let activeChats = {};
+        let currentAgent = null;
         
         function sendChatMessage() {
             const recipient = document.getElementById('chat-recipient').value;
@@ -902,12 +991,12 @@
             const chatMessages = document.getElementById('chat-messages');
             
             if (!recipient) {
-                alert('Please select a recipient');
+                alert('Выберите получателя');
                 return;
             }
             
             if (!message) {
-                alert('Please enter a message');
+                alert('Введите сообщение');
                 return;
             }
             
@@ -928,16 +1017,58 @@
             messageCounts[recipient]++;
             
             // Add user message
-            chatMessages.innerHTML += `<div class="text-right mb-1"><span class="bg-green-900 bg-opacity-50 p-1 rounded">You: ${message}</span></div>`;
+            chatMessages.innerHTML += `<div class="text-right mb-1"><span class="bg-green-900 bg-opacity-50 p-1 rounded">Вы: ${message}</span></div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            // Generate auto-reply
-            const randomResponse = agent.responses[Math.floor(Math.random() * agent.responses.length)];
+            // Process agent response
+            processAgentResponse(recipient, message);
             
+            document.getElementById('chat-message').value = '';
+        }
+
+        function processAgentResponse(recipient, message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const agent = agentCodes[recipient];
+            
+            // Add typing indicator
+            chatMessages.innerHTML += `<div class="text-left mb-1 text-gray-400" id="typing-indicator">${agent.name} печатает...</div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Generate contextual response
+            let response;
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('привет') || lowerMessage.includes('здравствуй')) {
+                response = `${agent.name}: Приветствую. ${agent.responses[0]}`;
+            } 
+            else if (lowerMessage.includes('статус') || lowerMessage.includes('ситуация')) {
+                response = `${agent.name}: Текущий статус: ${agent.responses[1] || agent.responses[0]}`;
+            } 
+            else if (lowerMessage.includes('помощь') || lowerMessage.includes('поддержка')) {
+                response = `${agent.name}: ${agent.responses[2] || 'Я не могу вам помочь в данный момент.'}`;
+            }
+            else if (lowerMessage.includes('z9') || lowerMessage.includes('заражен')) {
+                response = `${agent.name}: ${agent.name === 'Тоша (Заражённый)' ? 
+                    'Они уже внутри меня...' : 
+                    'Образцы Z9 демонстрируют аномальную активность!'}`;
+            }
+            else if (lowerMessage.includes('код') || lowerMessage.includes('пароль')) {
+                response = `${agent.name}: ${agent.isDeveloper ? 
+                    'Код доступа: DEV-ACCESS-777' : 
+                    'Я не могу разглашать коды доступа.'}`;
+            }
+            else {
+                const randomResponse = agent.responses[Math.floor(Math.random() * agent.responses.length)];
+                response = `${agent.name}: ${randomResponse}`;
+            }
+            
+            // Simulate typing delay (1.5-3.5 seconds)
             setTimeout(() => {
-                chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-blue-900 bg-opacity-50 p-1 rounded">${agent.name}: ${randomResponse}</span></div>`;
+                document.getElementById('typing-indicator').remove();
+                chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-blue-900 bg-opacity-50 p-1 rounded">${response}</span></div>`;
                 
-                // Check if should block
-                if (messageCounts[recipient] >= agent.blockAfter) {
+                // Check if should block after certain messages
+                if (agent.blockAfter && messageCounts[recipient] >= agent.blockAfter) {
                     agent.blocked = true;
                     setTimeout(() => {
                         chatMessages.innerHTML += `<div class="text-red-400 mb-1">${agent.blockMessage}</div>`;
@@ -946,11 +1077,55 @@
                 }
                 
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000 + Math.random() * 2000);
-            
-            document.getElementById('chat-message').value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Special case for infected Toha
+                if (recipient === 'TOCHA-MK' && Math.random() > 0.7) {
+                    setTimeout(() => {
+                        chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-red-900 bg-opacity-50 p-1 rounded">Тоша (Заражённый): *неразборчивые звуки*</span></div>`;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 2000);
+                }
+            }, 1500 + Math.random() * 2000);
         }
+
+        // Initialize chat when recipient selected
+        document.getElementById('chat-recipient').addEventListener('change', function() {
+            const recipient = this.value;
+            const chatMessages = document.getElementById('chat-messages');
+            
+            if (recipient) {
+                const agent = agentCodes[recipient];
+                currentAgent = recipient;
+                
+                if (agent.blocked) {
+                    chatMessages.innerHTML = `<div class="text-red-400">${agent.blockMessage}</div>`;
+                    return;
+                }
+                
+                chatMessages.innerHTML = `<div class="text-gray-400">Установлено соединение с ${agent.name}</div>`;
+                
+                // Auto greeting from agent
+                if (!activeChats[recipient]) {
+                    setTimeout(() => {
+                        const greeting = `${agent.name}: ${agent.responses[0]}`;
+                        chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-blue-900 bg-opacity-50 p-1 rounded">${greeting}</span></div>`;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        // Special initial message for some agents
+                        if (recipient === 'TOCHA-MK') {
+                            setTimeout(() => {
+                                chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-red-900 bg-opacity-50 p-1 rounded">Тоша (Заражённый): *странные звуки*</span></div>`;
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }, 2000);
+                        }
+                    }, 1000);
+                    activeChats[recipient] = true;
+                }
+            } else {
+                currentAgent = null;
+                chatMessages.innerHTML = '';
+            }
+        });
 
         // Handle recipient change
         document.getElementById('chat-recipient').addEventListener('change', function() {
@@ -973,6 +1148,13 @@
         document.getElementById('chat-message').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 sendChatMessage();
+            }
+        });
+
+        // Auto-focus message input when recipient selected
+        document.getElementById('chat-recipient').addEventListener('change', function() {
+            if (this.value) {
+                document.getElementById('chat-message').focus();
             }
         });
 
