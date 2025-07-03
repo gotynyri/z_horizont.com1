@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Sci-Fi Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glow-color: rgba(0, 255, 100, 0.8);
+            --alert-color: #ff5555;
+        }
+        
+        body {
+            background: radial-gradient(ellipse at center, #0a0e12 0%, #000000 100%);
+            color: var(--glow-color);
+            font-family: 'Ubuntu Mono', monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .holographic-ui {
+            background: rgba(10, 30, 20, 0.3);
+            border: 1px solid var(--glow-color);
+            box-shadow: 0 0 15px var(--glow-color);
+            position: relative;
+        }
+        
+        .holographic-ui::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 1px solid var(--glow-color);
+            filter: blur(5px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .data-stream {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 100, 0.1),
+                rgba(0, 255, 100, 0.1) 1px,
+                transparent 1px,
+                transparent 4px
+            );
+        }
+        
+        .neon-alert {
+            animation: neon-pulse 1.5s infinite alternate;
+        }
+        
+        @keyframes neon-pulse {
+            from { text-shadow: 0 0 5px var(--glow-color); }
+            to { text-shadow: 0 0 15px var(--alert-color), 0 0 20px var(--alert-color); }
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--glow-color);
+        }
+        
+        .neon-input {
+            background: rgba(0, 20, 10, 0.5);
+            border: 1px solid var(--glow-color);
+            color: var(--glow-color);
+            padding: 0.5rem;
+            font-family: 'Ubuntu Mono', monospace;
+            outline: none;
+            box-shadow: 0 0 5px var(--glow-color);
+        }
+        
+        .neon-input:focus {
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+        
+        .dna-strand {
+            display: flex;
+            justify-content: center;
+            height: 40px;
+            position: relative;
+            margin: 1rem 0;
+        }
+        
+        .base-pair {
+            width: 4px;
+            height: 40px;
+            background: var(--glow-color);
+            position: absolute;
+            transform-origin: bottom center;
+            animation: dna-float 3s infinite ease-in-out;
+            opacity: 0.8;
+        }
+        
+        @keyframes dna-float {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--glow-color);
+            box-shadow: 0 0 10px var(--glow-color);
+            animation: scan 3s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; opacity: 1; }
+            100% { top: 100%; opacity: 1; }
+        }
+        
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,255,100,0.2), var(--glow-color));
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--glow-color);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .wire-connector {
+            width: 40px;
+            height: 10px;
+            cursor: move;
+            border-radius: 3px;
+            transition: opacity 0.3s;
+        }
+        
+        .wire-target {
+            width: 40px;
+            height: 10px;
+            border: 1px dashed var(--glow-color);
+            border-radius: 3px;
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+    <div class="holographic-ui w-full max-w-4xl rounded-lg overflow-hidden data-stream">
+        <!-- Scan line effect -->
+        <div class="scan-line"></div>
+        
+        <!-- Terminal header -->
+        <div class="border-b border-green-500 p-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <h1 class="text-xl neon-text">HORIZON STATION TERMINAL v2.4.7</h1>
+            <div class="text-sm">[SECURITY LEVEL: <span class="text-yellow-400">3</span>]</div>
+        </div>
+        
+        <!-- Main terminal content -->
+        <div class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left column - Auth panel -->
+            <div class="holographic-ui p-4 rounded col-span-1">
+                <div class="neon-alert text-center mb-4 font-bold">AUTHENTICATION REQUIRED</div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block mb-1">AGENT ID:</label>
+                        <input type="text" class="neon-input w-full" id="agent-id" placeholder="ID-XXXXXX">
+                        <div class="text-xs mt-1 text-green-300" id="id-hint"></div>
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-1">ACCESS CODE:</label>
+                        <input type="password" class="neon-input w-full" id="access-code" placeholder="••••••••">
+                    </div>
+                    
+                    <div class="text-center">
+                        <button onclick="attemptLogin()" class="bg-green-900 bg-opacity-50 border border-green-500 px-4 py-2 rounded hover:bg-opacity-70 transition-all hover:shadow-lg hover:shadow-green-500/20">
+                            VERIFY CREDENTIALS
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Biometric scanner -->
+                <div class="mt-6 text-center">
+                    <p class="mb-2">OR</p>
+                    <button onclick="startBiometricScan()" class="text-xs bg-black bg-opacity-30 border border-green-500 px-3 py-1 rounded flex items-center mx-auto">
+                        <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                        INITIATE BIOMETRIC SCAN
+                    </button>
+                    
+                    <div class="dna-strand mt-2" id="dna-strand">
+                        <!-- DNA pairs will be generated by JS -->
+                    </div>
+                    
+                    <p class="text-xs mt-2">DNA MATCH: <span id="dna-match">0%</span></p>
+                </div>
+            </div>
+            
+            <!-- Middle column - Status and logs -->
+            <div class="col-span-1 md:col-span-2 space-y-4">
+                <!-- System status -->
+                <div class="holographic-ui p-4 rounded">
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">SYSTEM STATUS</h2>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div>CONTAINMENT: <span class="text-green-400">STABLE</span></div>
+                        <div>POWER: <span class="text-yellow-400">87%</span></div>
+                        <div>QUARANTINE: <span class="text-red-400">ACTIVE</span></div>
+                        <div>SPECIMENS: <span class="text-red-400">12</span></div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span>Z9 CONTAINMENT</span>
+                            <span>72%</span>
+                        </div>
+                        <div class="w-full bg-gray-900 h-2 rounded-full overflow-hidden">
+                            <div class="progress-bar-inner h-full" style="width: 72%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent logs -->
+                <div class="holographic-ui p-4 rounded">
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">RECENT LOGS</h2>
+                    <div class="text-sm space-y-2 max-h-40 overflow-y-auto pr-2">
+                        <div class="flex">
+                            <span class="text-gray-400">[08:42:17]</span>
+                            <span class="ml-2">Specimen Z9-03 showing increased activity</span>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-400">[08:39:55]</span>
+                            <span class="ml-2">Security breach in Sector 4-B</span>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-400">[08:37:23]</span>
+                            <span class="ml-2">Containment protocols initiated</span>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-400">[08:35:41]</span>
+                            <span class="ml-2">Warning: Power fluctuations detected</span>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-400">[08:32:09]</span>
+                            <span class="ml-2">Dr. Chen accessed Lab 3</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mini-games selector -->
+                <div class="holographic-ui p-4 rounded mt-4">
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">SYSTEM HACKING TOOLS</h2>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <button onclick="startGame('cipher')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
+                            CIPHER DECODER
+                        </button>
+                        <button onclick="startGame('wires')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
+                            WIRE RECONNECT
+                        </button>
+                        <button onclick="startGame('puzzle')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
+                            SECURITY PUZZLE
+                        </button>
+                        <button onclick="startGame('morse')" class="bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70">
+                            MORSE DECODER
+                        </button>
+                    </div>
+                    <div id="game-container" class="mt-4"></div>
+                </div>
+
+                <!-- Agent-specific tools and chat -->
+                <div id="agent-tools" class="holographic-ui p-4 rounded mt-4 hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">PERSONAL ACCESS TOOLS</h2>
+                            <div id="tool-buttons" class="grid grid-cols-1 gap-2 text-sm"></div>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">AGENT COMMUNICATION</h2>
+                            <div class="holographic-ui p-2 rounded mb-2 h-40 overflow-y-auto" id="chat-messages"></div>
+                            <div class="flex">
+                                <select id="chat-recipient" class="neon-input bg-black bg-opacity-50 mr-2">
+                                    <option value="">Select agent</option>
+                                    <option value="IGOR-K7">Dr. Igor</option>
+                                    <option value="OLES-Y4">Dr. Olesya</option>
+                                    <option value="DMIT-R9">Dr. Dmitri</option>
+                                    <option value="AKIRA-42">Dr. Akira</option>
+                                    <option value="NICH-666">Nicholas</option>
+                                    <option value="TOCHA-MK">Tosha</option>
+                                </select>
+                                <input type="text" class="neon-input flex-grow mr-2" id="chat-message" placeholder="Type message...">
+                                <button onclick="sendChatMessage()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded text-sm">
+                                    SEND
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Command input -->
+                <div class="holographic-ui p-4 rounded">
+                    <h2 class="text-lg font-bold mb-2 border-b border-green-500 pb-1">DIRECT COMMAND</h2>
+                    <div class="flex">
+                        <span class="text-green-400 mr-2">></span>
+                        <input type="text" class="neon-input flex-grow bg-transparent" id="command-input" placeholder="Enter command...">
+                        <button onclick="executeCommand()" class="ml-2 bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded text-sm">
+                            EXECUTE
+                        </button>
+                    </div>
+                    <div id="command-output" class="text-xs mt-2 h-20 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="border-t border-green-500 p-3 text-xs flex justify-between">
+            <div>LAST UPDATE: <span id="current-time">--:--:--</span></div>
+            <div>STATUS: <span class="text-green-400">ONLINE</span></div>
+            <div>VERSION: 2.4.7-ALPHA</div>
+        </div>
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Create DNA strand visualization
+        function createDNAStrand() {
+            const container = document.getElementById('dna-strand');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 12; i++) {
+                const pair = document.createElement('div');
+                pair.className = 'base-pair';
+                pair.style.left = `${i * 8}px`;
+                pair.style.animationDelay = `${i * 0.2}s`;
+                
+                // Random height variation
+                const height = 20 + Math.random() * 20;
+                pair.style.height = `${height}px`;
+                
+                // Color variation
+                const hue = 100 + Math.random() * 30 - 15;
+                pair.style.background = `hsl(${hue}, 100%, 50%)`;
+                
+                container.appendChild(pair);
+            }
+        }
+        createDNAStrand();
+        
+        // Biometric scan simulation with DNA patterns
+        function startBiometricScan() {
+            const matchDisplay = document.getElementById('dna-match');
+            let progress = 0;
+            const dnaPatterns = ['GATTACA-42', 'TOCHA-MK1', 'NICH-XX7'];
+            
+            const scanInterval = setInterval(() => {
+                progress += Math.random() * 8;
+                if (progress > 100) progress = 100;
+                matchDisplay.textContent = `${Math.floor(progress)}%`;
+                
+                if (progress === 100) {
+                    clearInterval(scanInterval);
+                    const randomPattern = dnaPatterns[Math.floor(Math.random() * dnaPatterns.length)];
+                    let accessMessage = '';
+                    
+                    switch(randomPattern) {
+                        case 'GATTACA-42':
+                            accessMessage = 'WARNING: Z9 SPECIMEN DETECTED\nQuarantine protocols engaged';
+                            break;
+                        case 'TOCHA-MK1':
+                            accessMessage = 'MATCH: TOSHA PRE-INFECTION\nAccess to medical records granted';
+                            break;
+                        case 'NICH-XX7':
+                            accessMessage = 'ANOMALY DETECTED\nNicholas pattern recognized\nALERT: Restricted access';
+                            break;
+                    }
+                    
+                    setTimeout(() => {
+                        alert(`BIOMETRIC SCAN COMPLETE\nDNA PATTERN: ${randomPattern}\n${accessMessage}`);
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        // Login attempt
+        function attemptLogin() {
+            const agentId = document.getElementById('agent-id').value;
+            const accessCode = document.getElementById('access-code').value;
+            
+            if (!agentId || !accessCode) {
+                alert('ERROR: Please enter both Agent ID and Access Code');
+                return;
+            }
+            
+            // Agent-code pairs with special access, tools and chat responses
+            const agentCodes = {
+                'IGOR-K7': {
+                    code: 'Z9-OMEGA',
+                    name: 'Dr. Igor Vladimirovich',
+                    access: 'Protocol "Ark"',
+                    tools: [
+                        {name: 'Activate Ark', func: 'launchProtocol("ARK")'},
+                        {name: 'Quarantine Logs', func: 'showQuarantineLogs()'},
+                        {name: 'Override Systems', func: 'overrideSystems()'}
+                    ],
+                    responses: [
+                        "I'm busy with containment protocols.",
+                        "The specimens are becoming more aggressive.",
+                        "We need to initiate Protocol Ark soon."
+                    ]
+                },
+                'OLES-Y4': {
+                    code: 'CRYPT-704',
+                    name: 'Dr. Olesya Mironova',
+                    access: 'Crew biometric data',
+                    tools: [
+                        {name: 'Medical Scan', func: 'medicalScan()'},
+                        {name: 'Biometric Data', func: 'showBiometrics()'},
+                        {name: 'Infection Map', func: 'showInfectionMap()'}
+                    ],
+                    responses: [
+                        "The infection is spreading faster than expected.",
+                        "Tosha's vitals are unstable.",
+                        "I'm analyzing the latest blood samples.",
+                        "The mutation rate is off the charts!",
+                        "We're losing containment in medical bay."
+                    ],
+                    blocked: false,
+                    blockAfter: 4,
+                    blockMessage: "ALERT: Medical quarantine - comms offline"
+                },
+                'DMIT-R9': {
+                    code: 'TITAN-DM',
+                    name: 'Dr. Dmitri Sokolov',
+                    access: 'Ventilation blueprints',
+                    tools: [
+                        {name: 'Vent Control', func: 'ventControl()'},
+                        {name: 'Structural Scan', func: 'structuralScan()'},
+                        {name: 'Emergency Seal', func: 'emergencySeal()'}
+                    ],
+                    responses: [
+                        "The ventilation system is compromised.",
+                        "Sector 4-B is completely sealed now.",
+                        "I'm rerouting power to containment."
+                    ]
+                },
+                'AKIRA-42': {
+                    code: 'GENOME-11',
+                    name: 'Dr. Akira Tanaka',
+                    access: 'Tosha DNA research',
+                    tools: [
+                        {name: 'DNA Analysis', func: 'dnaAnalysis()'},
+                        {name: 'Mutation Sim', func: 'mutationSim()'},
+                        {name: 'Gene Therapy', func: 'geneTherapy()'}
+                    ],
+                    responses: [
+                        "The Z9 strain shows unprecedented mutation rates.",
+                        "Tosha's DNA holds the key to a cure.",
+                        "We need more time for analysis."
+                    ]
+                },
+                'NICH-666': {
+                    code: 'NECRON-4',
+                    name: 'Nicholas (Unknown)',
+                    access: 'Ancient Z-9 texts',
+                    tools: [
+                        {name: 'Ancient Texts', func: 'showAncientTexts()'},
+                        {name: 'Ritual Circle', func: 'drawRitualCircle()'},
+                        {name: 'Void Scan', func: 'voidScan()'}
+                    ],
+                    responses: [
+                        "The old ones are awakening.",
+                        "You don't understand what we've unleashed.",
+                        "The containment won't hold them forever."
+                    ]
+                },
+                'TOCHA-MK': {
+                    code: 'PURGE-ALL',
+                    name: 'Tosha (Infected)',
+                    access: 'Station final moments',
+                    tools: [
+                        {name: 'Purge Systems', func: 'purgeSystems()'},
+                        {name: 'Release Z9', func: 'releaseZ9()'},
+                        {name: 'Final Message', func: 'showFinalMessage()'}
+                    ],
+                    responses: [
+                        "It's already inside me...",
+                        "The pain... it's everywhere...",
+                        "Kill me... before it's too late..."
+                    ]
+                }
+            };
+
+            if (agentCodes[agentId] && accessCode === agentCodes[agentId].code) {
+                const agent = agentCodes[agentId];
+                alert(`ACCESS GRANTED\nWelcome back, ${agent.name}\nAccess: ${agent.access}`);
+                
+                // Show agent-specific tools
+                const toolsContainer = document.getElementById('agent-tools');
+                toolsContainer.classList.remove('hidden');
+                
+                const buttonsContainer = document.getElementById('tool-buttons');
+                buttonsContainer.innerHTML = '';
+                
+                // Add custom buttons
+                agent.tools.forEach(tool => {
+                    const button = document.createElement('button');
+                    button.className = 'bg-green-900 bg-opacity-50 border border-green-500 p-2 rounded hover:bg-opacity-70';
+                    button.textContent = tool.name;
+                    button.onclick = new Function(tool.func);
+                    buttonsContainer.appendChild(button);
+                });
+            } else {
+                alert('ACCESS DENIED\nInvalid credentials\nAttempt logged');
+            }
+        }
+        
+        // Command execution
+        function executeCommand() {
+            const commandInput = document.getElementById('command-input');
+            const command = commandInput.value.trim();
+            const output = document.getElementById('command-output');
+            
+            if (!command) return;
+            
+            // Add command to output
+            output.innerHTML += `<div class="text-green-400">> ${command}</div>`;
+            
+            // Process command
+            let response = '';
+            
+            switch(command.toUpperCase()) {
+                // Basic commands
+                case 'HELP':
+                    response = 'Available commands: status, logs, scan, unlock, help';
+                    break;
+                case 'STATUS':
+                    response = 'System status: ONLINE\nContainment: 72%\nPower: 87%\nQuarantine: ACTIVE';
+                    break;
+                case 'LOGS':
+                    response = 'Displaying last 5 logs...\n[08:42:17] Specimen activity\n[08:39:55] Security breach\n[08:37:23] Containment initiated';
+                    break;
+                case 'SCAN':
+                    response = 'Initiating system scan...\nScan complete: 3 anomalies detected';
+                    break;
+                case 'UNLOCK':
+                    response = 'ERROR: Security clearance required';
+                    break;
+                
+                // Tier 1 Story Codes
+                case 'A9B2C7':
+                    response = 'ACCESSING MAIN ARCHIVE...\nDownloading station blueprints';
+                    break;
+                case 'Z9M-7043':
+                    response = 'BIOLAB SCHEMATICS UNLOCKED\nWarning: Containment breach detected';
+                    break;
+                case 'HORIZON-X':
+                    response = 'CREW VIDEO LOGS DECRYPTED\nPlaying file: log_igor_7.avi';
+                    break;
+                case 'TITAN-24':
+                    response = 'TITAN INFECTION MAP LOADED\n3 active outbreak zones';
+                    break;
+                case 'TOCHA-11':
+                    response = 'MEDICAL RECORDS ACCESSED\nBlood analysis shows Z9 markers';
+                    break;
+                case 'ARK-13':
+                    response = 'PROTOCOL ARK DOCUMENTS UNSEALED\nHuman preservation initiative details';
+                    break;
+                case 'NICH-777':
+                    response = 'ACCESSING ANCIENT TEXTS...\nTranscribing forbidden knowledge';
+                    break;
+                case 'QUANTUM-K':
+                    response = 'QUANTUM CPU ONLINE\nInitiating predictive algorithms';
+                    break;
+                
+                // Emergency Codes
+                case 'RED-ALPHA':
+                    response = 'QUARANTINE PROTOCOL ACTIVATED\nAll sectors sealing...';
+                    break;
+                case 'OMEGA-9':
+                    response = 'SELF-DESTRUCT INITIATED\n30 seconds to detonation';
+                    break;
+                case 'BLUE-TAU':
+                    response = 'MEDICAL OVERRIDE\nAll medibays unlocked\nAdministering sedatives';
+                    break;
+                case 'GAMMA-42':
+                    response = 'PURGE SYSTEMS ENGAGED\nRadical sterilization protocol';
+                    break;
+                
+                // Security Codes 
+                case 'GATE-24':
+                    response = 'ARMORY ACCESS GRANTED\nWeapons systems online';
+                    break;
+                case 'VAULT-7':
+                    response = 'HYPERCELL OPENED\nSpecimen storage accessible';
+                    break;
+                case 'SILO-11':
+                    response = 'EXPERIMENTAL WEAPONS RELEASED\nWarning: Extreme biohazard';
+                    break;
+                
+                // Easter Eggs
+                case 'UPUP-DOWN':
+                    response = 'RETRO MODE ENABLED\nDisplaying 8-bit interface';
+                    break;
+                case 'NEO-MATRIX':
+                    response = 'SYSTEM OVERRIDE\nGreen data stream activated';
+                    break;
+                case 'DEVS-42':
+                    response = 'DEVELOPER MODE ENABLED\nHidden commands unlocked';
+                    break;
+                case 'COVENANT':
+                    response = 'ACCESSING RESTRICTED FILES...\nThe Flood containment records';
+                    break;
+                
+                default:
+                    response = `ERROR: Unknown command "${command}"`;
+            }
+            
+            output.innerHTML += `<div class="text-gray-300">${response}</div>`;
+            output.scrollTop = output.scrollHeight;
+            commandInput.value = '';
+        }
+        
+        // Allow pressing Enter in command input
+        document.getElementById('command-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeCommand();
+            }
+        });
+        
+        // Create floating particles
+        function createParticles() {
+            const colors = ['rgba(0,255,100,0.5)', 'rgba(0,200,80,0.3)', 'rgba(0,150,60,0.2)'];
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 3 + 1;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Animation
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Generate daily code
+        function generateDailyCode() {
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            return `CRYPT-${month}${day}`;
+        }
+
+        // Agent ID hints
+        const hintsDatabase = {
+            "IGOR-K7": "Code starts with Z9-... (engraved on tablet)",
+            "OLES-Y4": "Hidden in audio diary (reverse audio)",
+            "DMIT-R9": "Written on back of Titan photo",
+            "AKIRA-42": "Encrypted in Japanese haiku (anagram)",
+            "NICH-666": "Hidden in tattoo symbols",
+            "TOCHA-MK": "Dictated in trance (Morse code in audio)"
+        };
+
+        document.getElementById('agent-id').addEventListener('input', function() {
+            document.getElementById('id-hint').textContent = hintsDatabase[this.value] || "";
+        });
+
+        // Mini-games framework
+        function startGame(gameType) {
+            const container = document.getElementById('game-container');
+            container.innerHTML = '';
+            
+            switch(gameType) {
+                case 'wires':
+                    container.innerHTML = `
+                        <div class="holographic-ui p-4 rounded">
+                            <h3 class="font-bold mb-2">// WIRE RECONNECT //</h3>
+                            <p>Match the wire colors to restore power:</p>
+                            <div class="grid grid-cols-2 gap-4 mt-4" id="wire-grid">
+                                <div class="wire-connector bg-red-500" data-color="red"></div>
+                                <div class="wire-connector bg-blue-500" data-color="blue"></div>
+                                <div class="wire-connector bg-yellow-500" data-color="yellow"></div>
+                                <div class="wire-connector bg-green-500" data-color="green"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mt-4" id="wire-targets">
+                                <div class="wire-target" data-color="blue"></div>
+                                <div class="wire-target" data-color="red"></div>
+                                <div class="wire-target" data-color="green"></div>
+                                <div class="wire-target" data-color="yellow"></div>
+                            </div>
+                            <button onclick="checkWireSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-4">
+                                CHECK CONNECTION
+                            </button>
+                        </div>
+                    `;
+                    setupWireGame();
+                    break;
+                case 'cipher':
+                    container.innerHTML = `
+                        <div class="holographic-ui p-4 rounded">
+                            <h3 class="font-bold mb-2">// CIPHER DECODER //</h3>
+                            <p>Encrypted message: <span class="text-yellow-400">ZKDW GR BRX VHH</span></p>
+                            <div class="flex items-center mt-2">
+                                <button onclick="shiftCipher(-1)" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded">
+                                    ←
+                                </button>
+                                <span class="mx-4" id="shift-value">Shift: 0</span>
+                                <button onclick="shiftCipher(1)" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded">
+                                    →
+                                </button>
+                            </div>
+                            <p class="mt-2">Decoded: <span id="decoded-text">?????????</span></p>
+                            <button onclick="checkCipherSolution()" class="bg-green-900 bg-opacity-50 border border-green-500 px-3 py-1 rounded mt-2 hidden" id="cipher-submit">
+                                SUBMIT SOLUTION
+                            </button>
+                        </div>
+                    `;
+                    break;
+                // Other game cases would go here...
+            }
+        }
+
+        // Cipher game functions
+        function decodeCaesar(text, shift) {
+            return text.split('').map(c => {
+                if (c.match(/[A-Z]/)) {
+                    const code = c.charCodeAt(0);
+                    return String.fromCharCode(((code - 65 + shift) % 26 + 26) % 26 + 65);
+                }
+                return c;
+            }).join('');
+        }
+
+        function shiftCipher(step) {
+            currentShift = (currentShift + step) % 26;
+            document.getElementById('shift-value').textContent = `Shift: ${currentShift}`;
+            const decoded = decodeCaesar("ZKDW GR BRX VHH", currentShift);
+            document.getElementById('decoded-text').textContent = decoded;
+            if(decoded === "WHAT DO YOU SEE") {
+                document.getElementById('cipher-submit').classList.remove('hidden');
+            }
+        }
+
+        function checkCipherSolution() {
+            const output = document.getElementById('command-output');
+            output.innerHTML += `<div class="text-green-400">Cipher solved! Access code fragment: OL-ES</div>`;
+            output.scrollTop = output.scrollHeight;
+            document.getElementById('game-container').innerHTML = '';
+        }
+
+        // Wire game variables
+        let draggedWire = null;
+        let wireConnections = {};
+
+        // Wire game functions
+        function setupWireGame() {
+            const connectors = document.querySelectorAll('.wire-connector');
+            const targets = document.querySelectorAll('.wire-target');
+            
+            connectors.forEach(connector => {
+                connector.draggable = true;
+                connector.addEventListener('dragstart', function(e) {
+                    draggedWire = this;
+                    setTimeout(() => this.style.opacity = '0.4', 0);
+                });
+                connector.addEventListener('dragend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+            
+            targets.forEach(target => {
+                target.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                target.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    this.style.boxShadow = '0 0 10px var(--glow-color)';
+                });
+                target.addEventListener('dragleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+                target.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.boxShadow = 'none';
+                    
+                    if (draggedWire) {
+                        // Remove any existing connection for this wire
+                        Object.keys(wireConnections).forEach(key => {
+                            if (wireConnections[key] === draggedWire.dataset.color) {
+                                delete wireConnections[key];
+                            }
+                        });
+                        
+                        // Add new connection
+                        wireConnections[this.dataset.color] = draggedWire.dataset.color;
+                        
+                        // Visual feedback
+                        this.style.background = draggedWire.style.background;
+                        this.setAttribute('data-connected', draggedWire.dataset.color);
+                    }
+                });
+            });
+        }
+
+        function checkWireSolution() {
+            const solution = {
+                blue: 'red',
+                red: 'blue', 
+                green: 'yellow',
+                yellow: 'green'
+            };
+            
+            let correct = 0;
+            Object.keys(solution).forEach(color => {
+                if (wireConnections[color] === solution[color]) {
+                    correct++;
+                }
+            });
+            
+            const output = document.getElementById('command-output');
+            if (correct === 4) {
+                output.innerHTML += `<div class="text-green-400">Wire puzzle solved! Access code fragment: YA-4</div>`;
+                document.getElementById('game-container').innerHTML = '';
+            } else {
+                output.innerHTML += `<div class="text-yellow-400">${correct}/4 wires connected correctly. Keep trying!</div>`;
+            }
+            output.scrollTop = output.scrollHeight;
+        }
+
+        let currentShift = 0;
+
+        // Agent tool functions
+        function launchProtocol(protocol) {
+            alert(`Launching ${protocol} protocol...\nAuthorization required`);
+        }
+        
+        function overrideSystems() {
+            document.getElementById('command-output').innerHTML += 
+                '<div class="text-red-400">WARNING: System override initiated!</div>';
+        }
+        
+        function showQuarantineLogs() {
+            document.getElementById('game-container').innerHTML = `
+                <div class="holographic-ui p-4 rounded">
+                    <h3>QUARANTINE LOGS</h3>
+                    <p>Z9-01: Contained</p>
+                    <p>Z9-02: Escaped</p>
+                    <p>Z9-03: Mutating</p>
+                </div>`;
+        }
+        
+        // Add similar placeholder functions for other agent tools...
+        function medicalScan() { alert("Running medical scan..."); }
+        function showBiometrics() { alert("Biometric data displayed"); }
+        function showInfectionMap() { alert("Infection map loading"); }
+        function ventControl() { alert("Ventilation controls"); }
+        function structuralScan() { alert("Structural scan running"); }
+        function emergencySeal() { alert("Emergency seal activated"); }
+        function dnaAnalysis() { alert("DNA analysis started"); }
+        function mutationSim() { alert("Mutation simulation"); }
+        function geneTherapy() { alert("Gene therapy protocols"); }
+        function showAncientTexts() { alert("Ancient texts accessed"); }
+        function drawRitualCircle() { alert("Ritual circle drawn"); }
+        function voidScan() { alert("Void scan initiated"); }
+        function purgeSystems() { alert("Purge systems activated"); }
+        function releaseZ9() { alert("Z9 specimens released!"); }
+        function showFinalMessage() { alert("Final message playing"); }
+
+        // Chat functions
+        let messageCounts = {};
+        
+        function sendChatMessage() {
+            const recipient = document.getElementById('chat-recipient').value;
+            const message = document.getElementById('chat-message').value;
+            const chatMessages = document.getElementById('chat-messages');
+            
+            if (!recipient) {
+                alert('Please select a recipient');
+                return;
+            }
+            
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            const agent = agentCodes[recipient];
+            
+            // Check if blocked
+            if (agent.blocked) {
+                chatMessages.innerHTML += `<div class="text-red-400 mb-1">${agent.blockMessage}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                document.getElementById('chat-message').value = '';
+                return;
+            }
+            
+            // Track message count
+            if (!messageCounts[recipient]) {
+                messageCounts[recipient] = 0;
+            }
+            messageCounts[recipient]++;
+            
+            // Add user message
+            chatMessages.innerHTML += `<div class="text-right mb-1"><span class="bg-green-900 bg-opacity-50 p-1 rounded">You: ${message}</span></div>`;
+            
+            // Generate auto-reply
+            const randomResponse = agent.responses[Math.floor(Math.random() * agent.responses.length)];
+            
+            setTimeout(() => {
+                chatMessages.innerHTML += `<div class="text-left mb-1"><span class="bg-blue-900 bg-opacity-50 p-1 rounded">${agent.name}: ${randomResponse}</span></div>`;
+                
+                // Check if should block
+                if (messageCounts[recipient] >= agent.blockAfter) {
+                    agent.blocked = true;
+                    setTimeout(() => {
+                        chatMessages.innerHTML += `<div class="text-red-400 mb-1">${agent.blockMessage}</div>`;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1500);
+                }
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000 + Math.random() * 2000);
+            
+            document.getElementById('chat-message').value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Handle recipient change
+        document.getElementById('chat-recipient').addEventListener('change', function() {
+            const recipient = this.value;
+            if (recipient) {
+                const agent = agentCodes[recipient];
+                if (agent.blocked) {
+                    document.getElementById('chat-messages').innerHTML = 
+                        `<div class="text-red-400">${agent.blockMessage}</div>`;
+                } else {
+                    document.getElementById('chat-messages').innerHTML = 
+                        `<div class="text-gray-400">Connected to ${agent.name}</div>`;
+                }
+            } else {
+                document.getElementById('chat-messages').innerHTML = '';
+            }
+        });
+
+        // Allow pressing Enter in chat
+        document.getElementById('chat-message').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        // Initialize
+        window.onload = function() {
+            createParticles();
+            createDNAStrand();
+            
+            // Display daily code hint
+            setTimeout(() => {
+                const output = document.getElementById('command-output');
+                output.innerHTML += `<div class="text-yellow-400">System hint: Today's code prefix is ${generateDailyCode()}</div>`;
+                output.scrollTop = output.scrollHeight;
+            }, 3000);
+        };
+    </script>
+</body>
+</html>
